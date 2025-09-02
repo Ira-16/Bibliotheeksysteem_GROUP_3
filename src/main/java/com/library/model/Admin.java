@@ -11,7 +11,7 @@ public class Admin {
 
     public Admin(String userName, String password, String employeeId) {
         this.userName = userName;
-        this.password = password;
+        this.password = hashPassword(password);
         this.employeeId = employeeId;
     }
 

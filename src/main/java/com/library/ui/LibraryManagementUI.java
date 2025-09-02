@@ -1,10 +1,18 @@
 package com.library.ui;
 
+import com.library.model.Admin;
+import com.library.repository.InMemoryAdminRepository;
+import com.library.service.AdminService;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class LibraryManagementUI extends JFrame {
+    private final AdminService adminService;
+    private JMenuItem loginItem;
+    private JMenuItem logoutItem;
+    private JMenu adminMenu;
 
     public LibraryManagementUI(){
         setTitle("📚 Library Management System");
@@ -12,15 +20,22 @@ public class LibraryManagementUI extends JFrame {
         setSize(800,600);
         setLocationRelativeTo(null); //in the middle?
 
+        //our admin
+        InMemoryAdminRepository adminRepo = new InMemoryAdminRepository();
+        adminRepo.save(new Admin("Victoria", "Vica123", "V001"));
+        this.adminService = new AdminService(adminRepo);
+
         //menu
         JMenuBar menuBar = new JMenuBar();
 
         //menu for admin
-        JMenu adminMenu = new JMenu("Admin");
-        JMenuItem loginItem = new JMenuItem("Login");
-        JMenuItem logoutItem = new JMenuItem("Logout");
+        adminMenu = new JMenu("Admin");
+        loginItem = new JMenuItem("Login");
+        logoutItem = new JMenuItem("Logout");
+        logoutItem.setEnabled(false);
         adminMenu.add(loginItem);
         adminMenu.add(logoutItem);
+
 
         //book menu
         JMenu bookMenu = new JMenu("Books");
@@ -33,7 +48,6 @@ public class LibraryManagementUI extends JFrame {
         memberMenu.add(addMemberItem);
 
         //loan menu
-
         JMenu loanMenu = new JMenu("Loans");
         JMenuItem lendBookItem = new JMenuItem("Lend Book");
         JMenuItem returnBookItem = new JMenuItem("Return Book");
@@ -50,6 +64,14 @@ public class LibraryManagementUI extends JFrame {
 
         //check later for login
         loginItem.addActionListener((ActionEvent e) -> showAdminLogin());
+
+        logoutItem.addActionListener(e->{
+            adminService.logOut();
+            JOptionPane.showMessageDialog(this, "Admin logged out.");
+            logoutItem.setEnabled(false);
+        });
+
+
         setVisible(true);
     }
     private void showAdminLogin(){
@@ -67,8 +89,15 @@ public class LibraryManagementUI extends JFrame {
             String username = userField.getText();
             String password = new String(passField.getPassword());
 
-            //for adminService
-            System.out.println("Log in as: " + username + ", password: " + password);
+            adminService.login(username, password);
+
+            if(adminService.isLoggedIn()){
+                Admin admin = adminService.getLogInAdmin();
+                JOptionPane.showMessageDialog(this, "Welcome, " + admin.getUserName() + "!");
+                logoutItem.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Incorrect username or password", "Login Faild", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

@@ -10,6 +10,9 @@ public class AdminService{
     public AdminService(AdminRepository adminRepository){
         this.AdminRepository = adminRepository;
     }
+
+    public Admin getLogInAdmin() {return logInAdmin;}
+
     public void login(String userName, String password){
         Admin admin = AdminRepository.findByUserName(userName);
         if(admin!=null && admin.checkPassword(password)) {
@@ -33,12 +36,14 @@ public class AdminService{
             logInAdmin = null;
         }
     }
-    public void isLoggedIn(){
+    public boolean isLoggedIn(){
         if(logInAdmin != null) {
             System.out.println("You are online");
+            return true;
         }else{
             System.out.println("You are offline");
         }
+        return false;
     }
 
     public void manageLibraryDetails(){
