@@ -1,0 +1,92 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class LibraryApp{
+    + main(): void;
+}
+
+class Library
+{
+    - name:String;
+    - address: String;
+    - books: List<Book>;
+    - members: List<Member>;
+    - loans: List<Loan>;
+
+    + addBook(book: Book): void;
+    + removeBook(book: Book): void;
+    + editBook(book: Book): void;
+    + searchBookByTitle(title: String): List<Book>;
+    + searchBookByAuthor(author: String): List<Book>;
+    + searchBookByISBN(isbn: String): Book;
+    + searchBookByCategory(isbn: String): Book;
+    + borrowBook(book: Book, member:Member) : void;
+    + returnBook(loan: Loan): void;
+    + registerMember(member: Member): void;
+    + deleteMember(members: Member) : void;
+    + editMember((member: Member): void;
+}
+
+class Book {
+    - title:String;
+    - author: String;
+    - publishedYear: String;
+    - ISBN: String;
+    - availableCopies: int;
+    - category: String
+
+    + isAvailable(): boolean
+    + returnBook(): void
+
+}
+
+class Member {
+    - name: String;
+    - age : int;
+    - membershipId: String;
+    - contactDetails: String;
+    - membershipType: String;
+
+    + borrowBook(book: Book): void;
+    + returnBook(book: Book) : void;
+}
+
+
+class Loan {
+    - book: Book;
+    - member : Member;
+    - borrowDate: Date;
+    - dueDate: Data;
+    - returned: boolean;
+
+    + isReturned(): boolean;
+    + isOverdue(): boolean;
+    + calculateFine(): double;
+}
+
+
+class Admin {
+    - name: String;
+    - employeeId: String;
+
+    + addBook(book: Book): void;
+    + editBook(book: Book): void;
+    + registerMember(member: Member): void;
+    + editMember(member: Member): void;
+     + removeBook(book: Book): void;
+}
+
+
+
+
+' === Relationships ===
+Library "1" -- "*" Book
+Library "1" -- "*" Member
+Library "1" -- "*" Loan
+Member "1" -- "*" Loan
+Book "1" -- "*" Loan
+Admin "1" -- "*" Library
+
+
+
+@enduml
