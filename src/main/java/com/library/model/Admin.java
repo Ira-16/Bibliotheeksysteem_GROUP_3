@@ -1,5 +1,9 @@
 package com.library.model;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
+
 public class Admin {
     private String userName;
     private String password;
@@ -15,7 +19,19 @@ public class Admin {
     public String getEmployeeId() {return employeeId;}
 
     public boolean checkPassword(String inputPassword){
-        return this.password.equals(inputPassword);
+        return Objects.equals(this.password,hashPassword(inputPassword));
     }
-
+    private String hashPassword(String password){
+        try{
+            MessageDigest mb = MessageDigest.getInstance("SHA-256");
+            byte[]hashed = mb.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for(byte b : hashed){
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        }catch(NoSuchAlgorithmException e){
+            throw new RuntimeException("SHA-256 algorithm not available");
+        }
+    }
 }

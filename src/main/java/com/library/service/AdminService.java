@@ -2,16 +2,17 @@ package com.library.service;
 
 import com.library.model.Admin;
 import com.library.repository.AdminRepository;
+import com.library.repository.InMemoryAdminRepository;
 
 public class AdminService{
-    public Admin logInAdmin;
-    public AdminRepository adminRepository;
+    private Admin logInAdmin;
+    private final AdminRepository AdminRepository;
 
-    public AdminService(AdminRepository adminRepository){
-        this.adminRepository = adminRepository;
+    public AdminService(AdminRepository inMemoryAdminRepository){
+        this.AdminRepository = inMemoryAdminRepository;
     }
     public void login(String userName, String password){
-        Admin admin = adminRepository.findByUserName(userName);
+        Admin admin = AdminRepository.findByUserName(userName);
         if(admin!=null && admin.checkPassword(password)) {
             this.logInAdmin = admin;
             System.out.println("Login successful. Welcome, " + userName + "!");
@@ -41,5 +42,11 @@ public class AdminService{
         }
     }
 
-    public void manageLibraryDetails(){}
+    public void manageLibraryDetails(){
+        if(logInAdmin == null){
+            System.out.println("Access denied. Please log in first.");
+            return;
+        }
+        System.out.println("Library details management is currently not implemented.");
+    }
 }
