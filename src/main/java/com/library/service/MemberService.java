@@ -2,54 +2,59 @@ package com.library.service;
 
 import com.library.model.Member;
 import com.library.repository.InMemoryMemberRepository;
+import com.library.repository.MemberRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class MemberService {
-    private final InMemoryMemberRepository inMemoryMemberRepository = new InMemoryMemberRepository();
+    private final MemberRepository memberRepository;
 
+    public MemberService(MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
+    }
     public void register(Member member) {
         if (member == null || member.getMembershipId() == null) {
             throw new IllegalArgumentException("Member or Membership ID must not be null.");
         }
 
-        if (inMemoryMemberRepository.existsById(member.getMembershipId())) {
-            throw new RuntimeException("Member with ID " + member.getMembershipId() + " already exists.");
+        if (memberRepository.existsById(member.getMembershipId())) {
+            throw new IllegalArgumentException("Member with ID " + member.getMembershipId() + " already exists.");
         }
 
-        inMemoryMemberRepository.save(member);
+        memberRepository.save(member);
         System.out.println("✅ Member registered: " + member.getName());
     }
 
     public void delete(String membershipId) {
-        if (membershipId == null || !inMemoryMemberRepository.existsById(membershipId)) {
-            throw new RuntimeException("Member with ID " + membershipId + " does not exist.");
+        if (membershipId == null || membershipId.isBlank() || !memberRepository.existsById(membershipId)) {//also empty blank
+            throw new NoSuchElementException("Member with ID " + membershipId + " does not exist.");
         }
 
-        inMemoryMemberRepository.deleteById(membershipId);
+        memberRepository.deleteById(membershipId);
         System.out.println("✅ Member deleted: " + membershipId);
     }
 
     public void edit(Member member) {
-        if (member == null || member.getMembershipId() == null) {
+        if (member == null || member.getMembershipId() == null || member.getMembershipId().isBlank()) {//also it can be empty
             throw new IllegalArgumentException("Member or Membership ID must not be null.");
         }
 
-        if (!inMemoryMemberRepository.existsById(member.getMembershipId())) {
-            throw new RuntimeException("Member with ID " + member.getMembershipId() + " does not exist.");
+        if (!memberRepository.existsById(member.getMembershipId())) {
+            throw new NoSuchElementException("Member with ID " + member.getMembershipId() + " does not exist.");
         }
 
-        inMemoryMemberRepository.save(member);
+        memberRepository.save(member);
         System.out.println("✅ Member updated: " + member.getName());
     }
 
-    public void listAll() {
+    public List<Member> listAll() { //with list it is better and short
         System.out.println("📋 All Members:");
-        for (Member member : inMemoryMemberRepository.findAll()) {
-            System.out.println(member);
-        }
+        return memberRepository.findAll();
     }
 
     public Member findById(String membershipId) {
-        return inMemoryMemberRepository.findById(membershipId)
-                .orElseThrow(() -> new RuntimeException("Member with ID " + membershipId + " not found."));
+        return memberRepository.findById(membershipId)
+                .orElseThrow(() -> new NoSuchElementException("Member with ID " + membershipId + " not found."));
     }
 }

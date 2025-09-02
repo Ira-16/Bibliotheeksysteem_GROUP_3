@@ -2,14 +2,13 @@ package com.library.service;
 
 import com.library.model.Admin;
 import com.library.repository.AdminRepository;
-import com.library.repository.InMemoryAdminRepository;
 
 public class AdminService{
     private Admin logInAdmin;
     private final AdminRepository AdminRepository;
 
-    public AdminService(AdminRepository inMemoryAdminRepository){
-        this.AdminRepository = inMemoryAdminRepository;
+    public AdminService(AdminRepository adminRepository){
+        this.AdminRepository = adminRepository;
     }
     public void login(String userName, String password){
         Admin admin = AdminRepository.findByUserName(userName);

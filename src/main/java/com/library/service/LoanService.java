@@ -9,24 +9,20 @@ import java.util.*;
 public class LoanService {
 
     private final BookRepository bookRepo;
-    private final InMemoryMemberRepository memberRepo;
-    private final InMemoryLoanRepository loanRepo;
+    private final MemberRepository memberRepo;
+    private final LoanRepository loanRepo;
 
-    public LoanService(BookRepository bookRepo, InMemoryMemberRepository memberRepo, InMemoryLoanRepository loanRepo) {
+    private static final boolean TEST_MODE = true;
+    private static final long TEST_DUE_SECONDS = 20L;
+    private static final long TEST_SECONDS_PER_DAY = 10L;
+    private static final int REAL_DUE_DAYS = 14;
+    private static final int MAX_ACTIVE_LOANS = 5;
+
+    public LoanService(BookRepository bookRepo, MemberRepository memberRepo, LoanRepository loanRepo) {
         this.bookRepo = bookRepo;
         this.memberRepo = memberRepo;
         this.loanRepo = loanRepo;
     }
-
-    private static final boolean TEST_MODE = true;
-
-    private static final long TEST_DUE_SECONDS = 20L;
-
-    private static final long TEST_SECONDS_PER_DAY = 10L;
-
-    private static final int REAL_DUE_DAYS = 14;
-
-    private static final int MAX_ACTIVE_LOANS = 5;
 
     private LocalDateTime calcDueDateTime(LocalDateTime borrowAt, Member m) {
         if (TEST_MODE) return borrowAt.plusSeconds(TEST_DUE_SECONDS);
@@ -34,10 +30,10 @@ public class LoanService {
     }
 
     public String lendBook(String membershipId, String isbn) {
-        Member member = memberRepo.findByMembershipId(membershipId)
+        Member member = memberRepo.findById(membershipId)
                 .orElseThrow(() -> new IllegalArgumentException("MemberNotFound: " + membershipId));
 
-        Book book = bookRepo.findByIsbn(isbn)
+        Book book = bookRepo.findByISBN(isbn)
                 .orElseThrow(() -> new IllegalArgumentException("BookNotFound: " + isbn));
 
         List<Loan> actives = loanRepo.findActiveByMember(membershipId);
@@ -69,11 +65,10 @@ public class LoanService {
         Loan loan = loanRepo.findById(loanId)
                 .orElseThrow(() -> new IllegalArgumentException("LoanNotFound: " + loanId));
 
-        Book book = bookRepo.findByIsbn(loan.getIsbn())
+        Book book = bookRepo.findByISBN(loan.getIsbn())
                 .orElseThrow(() -> new IllegalStateException("BookMissingForLoan: " + loan.getIsbn()));
 
         LocalDateTime now = LocalDateTime.now();
-
         int fineEuros = 0;
         if (loan.isOverdue(now)) {
             long secondsLate = Duration.between(loan.getDueDateTime(), now).getSeconds();
@@ -94,4 +89,7 @@ public class LoanService {
     }
 
     public Optional<Loan> getLoan(String loanId) { return loanRepo.findById(loanId); }
+
+
 }
+
