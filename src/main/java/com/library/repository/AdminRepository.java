@@ -1,4 +1,20 @@
 package com.library.repository;
+import com.library.model.Admin;
+import java.util.*;
 
-public class AdminRepository {
+public class AdminRepository implements DataBaseAdminRepository{
+
+    private Map<String,Admin> admins = new HashMap<>();
+
+    public void save(Admin admin){
+        admins.put(admin.getUserName(), admin);
+    }
+
+    public Admin findByUserName(String userName){
+        return admins.get(userName);
+    }
+
+    public void delete(Admin admin){
+        admins.remove(admin.getUserName());
+    }
 }
