@@ -1,0 +1,13 @@
+[ {
+  "title" : "100",
+  "author" : "100",
+  "publishedYear" : 100,
+  "isbn" : "100",
+  "availableCopies" : 97
+}, {
+  "title" : "Test Book",
+  "author" : "Test Author",
+  "publishedYear" : 2023,
+  "isbn" : "1234567890",
+  "availableCopies" : 1
+} ]
