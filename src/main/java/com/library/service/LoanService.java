@@ -1,10 +1,16 @@
 package com.library.service;
 
-import com.library.model.*;
-import com.library.repository.*;
+import com.library.model.Book;
+import com.library.model.Loan;
+import com.library.model.LoanStatus;
+import com.library.model.Member;
+import com.library.model.repository.*;
 
-import java.time.*;
-import java.util.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class LoanService {
 

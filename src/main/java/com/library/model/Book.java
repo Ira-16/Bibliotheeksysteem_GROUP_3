@@ -5,13 +5,13 @@ import java.util.Objects;
 public class Book {
     private String title;
     private String author;
-    private String publishedYear;
+    private int publishedYear;
     private String isbn;
     private int availableCopies;
 
     public Book() {}
 
-    public Book(String title, String author, String publishedYear, String isbn, int availableCopies) {
+    public Book(String title, String author, int publishedYear, String isbn, int availableCopies) {
         this.title = title;
         this.author = author;
         this.publishedYear = publishedYear;
@@ -25,7 +25,7 @@ public class Book {
     public String getAuthor() {
         return author;
     }
-    public String getPublishedYear() {return publishedYear;}
+    public int getPublishedYear() {return publishedYear;}
     public String getISBN() {return isbn;}
     public int getAvailableCopies() {return availableCopies;}
 
@@ -33,7 +33,7 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
-    public void setPublishedYear(String publishedYear) {this.publishedYear = publishedYear;}
+    public void setPublishedYear(int publishedYear) {this.publishedYear = publishedYear;}
     public void setISBN(String ISBN) {this.isbn = ISBN;}
     public void setAvailableCopies(int availableCopies) {this.availableCopies = availableCopies;}
 
@@ -56,12 +56,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "String='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", publishedYear='" + publishedYear + '\'' +
-                ", ISBN='" + isbn + '\'' +
-                ", availableCopies=" + availableCopies +
-                '}';
+        return "Book info: " + title + "-" + author + ", " + publishedYear + ", " +
+                ", ISBN-" + isbn + "; Copies: " + availableCopies;
     }
 }

@@ -16,5 +16,7 @@ public interface BookRepository {
 
     List<Book> findByAuthor(String author);
 
+    List<Book> findByYear(int year);
+
     List<Book> findAll();
 }

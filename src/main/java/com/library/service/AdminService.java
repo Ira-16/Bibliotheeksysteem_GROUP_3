@@ -1,7 +1,7 @@
 package com.library.service;
 
 import com.library.model.Admin;
-import com.library.repository.AdminRepository;
+import com.library.model.repository.AdminRepository;
 
 public class AdminService{
     private Admin logInAdmin;

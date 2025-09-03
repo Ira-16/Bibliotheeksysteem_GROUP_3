@@ -6,6 +6,7 @@ public class Member {
     private int age;
     private String contactDetails;
 
+    public Member(){}
     // Constructor
     public Member(String membershipId, String name, int age, String contactDetails) {
         this.membershipId = membershipId;
@@ -31,11 +32,7 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Member{" +
-                "membershipId=" + membershipId +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", contactDetails='" + contactDetails + '\'' +
-                '}';
+        return "Member Info: " + membershipId + " - " + name + ", " + age +
+                " years old. Contact Details: " + contactDetails;
     }
 }

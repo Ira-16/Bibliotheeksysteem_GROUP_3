@@ -1,9 +1,10 @@
 package com.library.service;
 
 import com.library.model.Book;
-import com.library.repository.BookRepository;
+import com.library.model.repository.BookRepository;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 
 public class BookService {
@@ -53,7 +54,14 @@ public class BookService {
         return repository.findByISBN(isbn)
                 .orElseThrow(() -> new NoSuchElementException("Book not found: " + isbn));
     }
+    public List<Book> searchByYear(int year){
+        return repository.findByYear(year);
+    }
 
+    public List<Book> listAll() {
+        System.out.println("📋 All Books:");
+        return repository.findAll();
+    }
 
     private void validateNewBook(Book b) {
         if (b == null) throw new IllegalArgumentException("Book is null");
