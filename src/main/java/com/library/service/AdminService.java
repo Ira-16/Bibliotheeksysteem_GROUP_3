@@ -1,20 +1,20 @@
 package com.library.service;
 
 import com.library.model.Admin;
-import com.library.model.repository.AdminRepository;
+import com.library.repository.UserRepository;
 
 public class AdminService{
     private Admin logInAdmin;
-    private final AdminRepository AdminRepository;
+    private final UserRepository<Admin> UserRepository;
 
-    public AdminService(AdminRepository adminRepository){
-        this.AdminRepository = adminRepository;
+    public AdminService(UserRepository userRepository){
+        this.UserRepository = userRepository;
     }
 
     public Admin getLogInAdmin() {return logInAdmin;}
 
     public void login(String userName, String password){
-        Admin admin = AdminRepository.findByUserName(userName);
+        Admin admin = UserRepository.findByUserName(userName);
         if(admin!=null && admin.checkPassword(password)) {
             this.logInAdmin = admin;
             System.out.println("Login successful. Welcome, " + userName + "!");

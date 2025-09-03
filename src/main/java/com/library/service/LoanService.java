@@ -4,7 +4,7 @@ import com.library.model.Book;
 import com.library.model.Loan;
 import com.library.model.LoanStatus;
 import com.library.model.Member;
-import com.library.model.repository.*;
+import com.library.repository.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

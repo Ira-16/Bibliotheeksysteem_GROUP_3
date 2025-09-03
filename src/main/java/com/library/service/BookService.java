@@ -1,7 +1,7 @@
 package com.library.service;
 
 import com.library.model.Book;
-import com.library.model.repository.BookRepository;
+import com.library.repository.BookRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
