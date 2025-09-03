@@ -6,66 +6,36 @@ public class Book {
     private String title;
     private String author;
     private String publishedYear;
-    private String ISBN;
+    private String isbn;
     private int availableCopies;
 
-    public Book() {
-    }
+    public Book() {}
 
-    public Book(String title, String author, String publishedYear, String ISBN, int availableCopies) {
+    public Book(String title, String author, String publishedYear, String isbn, int availableCopies) {
         this.title = title;
         this.author = author;
         this.publishedYear = publishedYear;
-        this.ISBN = ISBN;
+        this.isbn = isbn;
         this.availableCopies = availableCopies;
     }
 
     public String getTitle() {
         return title;
     }
-
     public String getAuthor() {
         return author;
     }
+    public String getPublishedYear() {return publishedYear;}
+    public String getISBN() {return isbn;}
+    public int getAvailableCopies() {return availableCopies;}
 
-    public String getPublishedYear() {
-
-        return publishedYear;
-    }
-
-    public String getISBN() {
-
-        return ISBN;
-    }
-
-    public int getAvailableCopies() {
-
-        return availableCopies;
-    }
-
-    public void setString(String title) {
-
-        this.title = title;
-    }
-
+    public void setTitle(String title) {this.title = title;}
     public void setAuthor(String author) {
         this.author = author;
     }
-
-    public void setPublishedYear(String publishedYear) {
-
-        this.publishedYear = publishedYear;
-    }
-
-    public void setISBN(String ISBN) {
-
-        this.ISBN = ISBN;
-    }
-
-    public void setAvailableCopies(int availableCopies) {
-
-        this.availableCopies = availableCopies;
-    }
+    public void setPublishedYear(String publishedYear) {this.publishedYear = publishedYear;}
+    public void setISBN(String ISBN) {this.isbn = ISBN;}
+    public void setAvailableCopies(int availableCopies) {this.availableCopies = availableCopies;}
 
 
     @Override
@@ -76,12 +46,12 @@ public class Book {
                 Objects.equals(title, book.title) &&
                 Objects.equals(author, book.author) &&
                 Objects.equals(publishedYear, book.publishedYear) &&
-                Objects.equals(ISBN, book.ISBN);
+                Objects.equals(isbn, book.isbn);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, author, publishedYear, ISBN, availableCopies);
+        return Objects.hash(title, author, publishedYear, isbn, availableCopies);
     }
 
     @Override
@@ -90,7 +60,7 @@ public class Book {
                 "String='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", publishedYear='" + publishedYear + '\'' +
-                ", ISBN='" + ISBN + '\'' +
+                ", ISBN='" + isbn + '\'' +
                 ", availableCopies=" + availableCopies +
                 '}';
     }

@@ -5,7 +5,7 @@ import com.library.model.Book;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class DataBaseBookRepository implements BookRepository {
+public class InMemoryBookRepository implements BookRepository {
     private final Map<String, Book> storage = new HashMap<>();
     @Override
     public void save(Book book) {
