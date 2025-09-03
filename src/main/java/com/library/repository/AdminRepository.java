@@ -1,20 +1,12 @@
 package com.library.repository;
+
 import com.library.model.Admin;
-import java.util.*;
 
-public class AdminRepository implements DataBaseAdminRepository{
+public interface AdminRepository {
+    void save(Admin admin);
 
-    private Map<String,Admin> admins = new HashMap<>();
+    void delete(Admin admin);
 
-    public void save(Admin admin){
-        admins.put(admin.getUserName(), admin);
-    }
-
-    public Admin findByUserName(String userName){
-        return admins.get(userName);
-    }
-
-    public void delete(Admin admin){
-        admins.remove(admin.getUserName());
-    }
+    Admin findByUserName(String userName);
 }
+
