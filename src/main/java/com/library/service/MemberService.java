@@ -1,7 +1,8 @@
 package com.library.service;
 
 import com.library.model.Member;
-import com.library.model.repository.MemberRepository;
+import com.library.repository.MemberRepository;
+
 
 import java.util.List;
 import java.util.NoSuchElementException;

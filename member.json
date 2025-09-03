@@ -1,0 +1,21 @@
+[ {
+  "membershipId" : "1",
+  "name" : "olks",
+  "age" : 12,
+  "contactDetails" : "1546567"
+}, {
+  "membershipId" : "35",
+  "name" : "ira",
+  "age" : 18,
+  "contactDetails" : "0254"
+}, {
+  "membershipId" : "2",
+  "name" : "Hydar",
+  "age" : 20,
+  "contactDetails" : "012264"
+}, {
+  "membershipId" : "3",
+  "name" : "tom",
+  "age" : 13,
+  "contactDetails" : "45667"
+} ]
