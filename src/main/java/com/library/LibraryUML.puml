@@ -1,92 +1,126 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class LibraryApp{
-    + main(): void;
+package model {
+    class Admin {
+        - userName: String
+    }
+
+    class Book {
+        - title: String
+        - author: String
+        - publicationYear: int
+        - isbn: String
+        - availableCopies: int
+    }
+
+    class Member {
+        - name: String
+        - age: int
+        - membershipId: String
+        - contactInfo: String
+    }
+
+    class Loan {
+        - loanId: String
+        - isbn: String
+        - membershipId: String
+        - loanDate: LocalDate
+        - dueDate: LocalDate
+        - status: LoanStatus
+    }
+
+    enum LoanStatus {
+        ACTIVE
+        RETURNED
+    }
 }
 
-class Library
-{
-    - name:String;
-    - address: String;
-    - books: List<Book>;
-    - members: List<Member>;
-    - loans: List<Loan>;
+package repository {
+    interface AdminRepository {
+        + save(Admin)
+        + findByUserName(String): Admin
+        + delete(Admin)
+    }
 
-    + addBook(book: Book): void;
-    + removeBook(book: Book): void;
-    + editBook(book: Book): void;
-    + searchBookByTitle(title: String): List<Book>;
-    + searchBookByAuthor(author: String): List<Book>;
-    + searchBookByISBN(isbn: String): Book;
-    + searchBookByCategory(isbn: String): Book;
-    + borrowBook(book: Book, member:Member) : void;
-    + returnBook(loan: Loan): void;
-    + registerMember(member: Member): void;
-    + deleteMember(members: Member) : void;
-    + editMember((member: Member): void;
+    interface BookRepository {
+        + save(Book)
+        + delete(Book)
+        + findByISBN(String): Optional<Book>
+        + findByTitle(String): List<Book>
+        + findByAuthor(String): List<Book>
+        + findByYear(int): List<Book>
+        + findAll(): List<Book>
+    }
+
+    interface MemberRepository {
+        + save(Member)
+        + deleteById(String)
+        + existsById(String): boolean
+        + findById(String): Optional<Member>
+        + findAll(): List<Member>
+        + deleteAll()
+        + count(): int
+    }
+
+    interface LoanRepository {
+        + save(Loan)
+        + findById(String): Optional<Loan>
+        + findActiveByMemberAndIsbn(String, String): Optional<Loan>
+        + findActiveByMember(String): List<Loan>
+        + findAllActive(): List<Loan>
+    }
+
+    class InMemoryAdminRepository implements AdminRepository
+    class InMemoryBookRepository implements BookRepository
+    class InMemoryMemberRepository implements MemberRepository
+    class InMemoryLoanRepository implements LoanRepository
 }
 
-class Book {
-    - title:String;
-    - author: String;
-    - publishedYear: String;
-    - ISBN: String;
-    - availableCopies: int;
-    - category: String
+package service {
+    class AdminService {
+        - adminRepo: AdminRepository
+    }
 
-    + isAvailable(): boolean
-    + returnBook(): void
+    class BookService {
+        - bookRepo: BookRepository
+    }
 
+    class MemberService {
+        - memberRepo: MemberRepository
+    }
+
+    class LoanService {
+        - loanRepo: LoanRepository
+        - bookRepo: BookRepository
+        - memberRepo: MemberRepository
+    }
 }
 
-class Member {
-    - name: String;
-    - age : int;
-    - membershipId: String;
-    - contactDetails: String;
-    - membershipType: String;
-
-    + borrowBook(book: Book): void;
-    + returnBook(book: Book) : void;
+class LibraryApp {
+    + main(args: String[]): void
 }
 
+' Relationships
+LibraryApp --> AdminService
+LibraryApp --> BookService
+LibraryApp --> MemberService
+LibraryApp --> LoanService
 
-class Loan {
-    - book: Book;
-    - member : Member;
-    - borrowDate: Date;
-    - dueDate: Data;
-    - returned: boolean;
+Loan --> Book
+Loan --> Member
 
-    + isReturned(): boolean;
-    + isOverdue(): boolean;
-    + calculateFine(): double;
-}
+AdminService --> AdminRepository
+BookService --> BookRepository
+MemberService --> MemberRepository
+LoanService --> LoanRepository
+LoanService --> BookRepository
+LoanService --> MemberRepository
 
-
-class Admin {
-    - name: String;
-    - employeeId: String;
-
-    + addBook(book: Book): void;
-    + editBook(book: Book): void;
-    + registerMember(member: Member): void;
-    + editMember(member: Member): void;
-     + removeBook(book: Book): void;
-}
-
-
-
-
-' === Relationships ===
-Library "1" -- "*" Book
-Library "1" -- "*" Member
-Library "1" -- "*" Loan
-Member "1" -- "*" Loan
-Book "1" -- "*" Loan
-Admin "1" -- "*" Library
-
+InMemoryAdminRepository ..|> AdminRepository
+InMemoryBookRepository ..|> BookRepository
+InMemoryMemberRepository ..|> MemberRepository
+InMemoryLoanRepository ..|> LoanRepository
 
 
 @enduml
