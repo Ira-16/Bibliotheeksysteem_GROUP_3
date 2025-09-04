@@ -133,7 +133,7 @@ public class LibraryApp {
 
             switch (choice) {
                 case "1" -> lendBookAsMember(member);
-                case "2" -> returnBookUI();
+                case "2" -> returnBookUI(member);
                 case "3" -> bookService.listAll().forEach(System.out::println);
                 case "0" -> {
                     System.out.println("👋 Logged out.");
@@ -306,7 +306,7 @@ public class LibraryApp {
     // Loans
     private void manageLoans() {
         System.out.println("\n📖 Loan Management:");
-        System.out.println("1. ➕ Lend Book");
+        System.out.println("1. ➕ Borrow Book");
         System.out.println("2. 📦 Return Book");
         System.out.println("0. 🔙 Back");
         System.out.print("👉 Choose: ");
@@ -314,7 +314,7 @@ public class LibraryApp {
 
         switch (choice) {
             case "1" -> lendBookUI();
-            case "2" -> returnBookUI();
+            case "2" -> System.out.println("⚠️ Only members can return books from their own account.");
             case "0" -> {}
             default -> System.out.println("⚠️ Invalid choice!");
         }
@@ -323,23 +323,42 @@ public class LibraryApp {
     private void lendBookUI() {
         System.out.print("Member ID: ");
         String mid = scanner.nextLine();
+        Member member = memberService.findById(mid);
+        if (member == null) {
+            System.out.println("❌ Member with ID " + mid + " was not found.");
+            return;
+        }
         System.out.print("ISBN: ");
         String isbn = scanner.nextLine();
         String loanId = loanService.lendBook(mid, isbn);
-        System.out.println("✅ Book lent. Loan ID: " + loanId);
+        if (loanId != null) {
+            System.out.println("✅ Book lent. Loan ID: " + loanId);
+        }
     }
 
     private void lendBookAsMember(Member member) {
         System.out.print("ISBN: ");
         String isbn = scanner.nextLine();
         String loanId = loanService.lendBook(member.getMembershipId(), isbn);
-        System.out.println("✅ Book lent. Loan ID: " + loanId);
+        if (loanId != null) {
+            System.out.println("✅ Book lent. Loan ID: " + loanId);
+        }
     }
 
-    private void returnBookUI() {
+    private void returnBookUI(Member member) {
+        var activeLoans = loanRepo.findActiveByMember(member.getMembershipId());
+        if (activeLoans == null || activeLoans.isEmpty()) {
+            System.out.println("⚠️ You have not borrowed any books yet.");
+            System.out.println("📭 Your loan list is empty.");
+            return;
+        }
         System.out.print("Loan ID: ");
         String loanId = scanner.nextLine();
         int fine = loanService.returnBook(loanId);
+        if (fine == -1) {
+            System.out.println("❗ write the Loan ID correctly.");
+            return;
+        }
         if (fine > 0) {
             System.out.println("⚠️ Late return. Fine: " + fine + "€");
         } else {
@@ -350,8 +369,5 @@ public class LibraryApp {
     // Exit
     private void exitProgram() {
         System.out.println("👋 Goodbye!");
-        System.exit(0);
     }
 }
-
-

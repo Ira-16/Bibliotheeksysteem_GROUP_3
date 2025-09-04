@@ -54,7 +54,6 @@ public class MemberService {
     }
 
     public Member findById(String membershipId) {
-        return memberRepository.findById(membershipId)
-                .orElseThrow(() -> new NoSuchElementException("Member with ID " + membershipId + " not found."));
+        return memberRepository.findById(membershipId).orElse(null);
     }
 }

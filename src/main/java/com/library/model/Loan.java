@@ -31,6 +31,37 @@ public class Loan {
     public LocalDateTime getReturnDateTime(){return returnDateTime;}
     public LoanStatus getStatus() { return status; }
 
+    public void setDueDateTime(LocalDateTime dueDateTime) {
+        this.dueDateTime = dueDateTime;
+    }
+
+    /**
+     * Checks if the loan is overdue and updates the status if needed.
+     * Prints a warning if overdue.
+     */
+    public void checkAndUpdateOverdue(LocalDateTime now) {
+        if (status == LoanStatus.ACTIVE && now.isAfter(dueDateTime)) {
+            status = LoanStatus.OVERDUE;
+            System.out.println("Overdue! A fine of €1/day will be applied.");
+        }
+    }
+
+    /**
+     * Calculates the overdue fine: €1 per day overdue (minimum 1 if overdue).
+     * Returns 0 if not overdue or already returned.
+     */
+    public int calculateOverdueFine(LocalDateTime now) {
+        if (status != LoanStatus.OVERDUE && status != LoanStatus.RETURNED) {
+            checkAndUpdateOverdue(now);
+        }
+        if (status == LoanStatus.OVERDUE) {
+            LocalDateTime effectiveReturn = (returnDateTime != null) ? returnDateTime : now;
+            long daysOverdue = java.time.Duration.between(dueDateTime, effectiveReturn).toDays();
+            return (int) Math.max(1, daysOverdue);
+        }
+        return 0;
+    }
+
     public boolean isOverdue(LocalDateTime now) {
         return status == LoanStatus.ACTIVE && now.isAfter(dueDateTime);
     }
