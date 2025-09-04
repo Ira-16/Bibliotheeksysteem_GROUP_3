@@ -1,7 +1,6 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-@startuml
 package model {
     class Admin {
         - userName: String
@@ -122,4 +121,6 @@ InMemoryAdminRepository ..|> AdminRepository
 InMemoryBookRepository ..|> BookRepository
 InMemoryMemberRepository ..|> MemberRepository
 InMemoryLoanRepository ..|> LoanRepository
+
+
 @enduml
