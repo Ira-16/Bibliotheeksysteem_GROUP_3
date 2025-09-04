@@ -3,6 +3,8 @@ package com.library.service;
 import com.library.model.Book;
 import com.library.repository.BookRepository;
 
+
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -41,22 +43,68 @@ public class BookService {
 
 
     public List<Book> searchBooksByTitle(String title) {
-        return repository.findByTitle(title);
+        try {
+            List<Book> books = repository.findByTitle(title);
+            if (books.isEmpty()) {
+                throw new NoSuchElementException("No books found with title containing: \"" + title + "\"");
+            }
+            return books;
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
+            return Collections.emptyList();
+        }
     }
+
+
 
 
     public List<Book> searchBooksByAuthor(String author) {
-        return repository.findByAuthor(author);
+        try {
+            List<Book> books = repository.findByAuthor(author);
+            if (books.isEmpty()) {
+                throw new NoSuchElementException("No books found by author: \"" + author + "\"");
+            }
+            return books;
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
+            return Collections.emptyList();
+        }
     }
 
+
+
+//    public Book searchBookByISBN(String isbn) {
+//        return repository.findByISBN(isbn)
+//                .orElseThrow(() -> new NoSuchElementException("No books found with isbn containing: \"" + isbn + "\""));
+//    }
 
     public Book searchBookByISBN(String isbn) {
-        return repository.findByISBN(isbn)
-                .orElseThrow(() -> new NoSuchElementException("Book not found: " + isbn));
+        try {
+            return repository.findByISBN(isbn)
+                    .orElseThrow(() -> new NoSuchElementException("No book found with ISBN: \"" + isbn + "\""));
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage()); // Replace with logger if needed
+            return null; // Or throw a custom exception, or return a default Book
+        }
     }
-    public List<Book> searchByYear(int year){
-        return repository.findByYear(year);
+
+
+
+    public List<Book> searchByYear(int year) {
+        try {
+            List<Book> books = repository.findByYear(year);
+            if (books.isEmpty()) {
+                throw new NoSuchElementException("No books found published in the year: " + year);
+            }
+
+            return books;
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
+            return Collections.emptyList();
+        }
     }
+
+
 
     public List<Book> listAll() {
         System.out.println("📋 All Books:");
