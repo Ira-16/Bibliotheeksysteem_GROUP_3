@@ -79,7 +79,7 @@ public class MemberService {
 
     public List<Member> listAll() {
         try {
-            System.out.println("📋 All Members:");
+            System.out.println("📋 All Members: ");
             return memberRepository.findAll();
         } catch (Exception e) {
             System.err.println("❌ Error fetching members: " + e.getMessage());
