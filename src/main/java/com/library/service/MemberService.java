@@ -23,7 +23,7 @@ public class MemberService {
             }
 
             if (memberRepository.existsById(member.getMembershipId())) {
-                System.err.println("❌ Member with ID " + member.getMembershipId() + " already exists!");
+                System.err.println("❌ Member with ID " + member.getMembershipId() + " already exists.");
                 return;
             }
 
