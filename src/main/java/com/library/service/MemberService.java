@@ -13,18 +13,28 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
     public void register(Member member) {
+        try{
         if (member == null || member.getMembershipId() == null) {
             throw new IllegalArgumentException("Member or Membership ID must not be null.");
         }
-
+        if(!isValidEmail(member.getContactDetails())){
+            throw new IllegalArgumentException("Invalid email address: " + member.getContactDetails());
+        }
         if (memberRepository.existsById(member.getMembershipId())) {
             throw new IllegalArgumentException("Member with ID " + member.getMembershipId() + " already exists.");
         }
-
         memberRepository.save(member);
-        System.out.println("✅ Member registered: " + member.getName());
-    }
+        System.out.println("Thank you for information, " + member.getName() + "!");
+        System.out.println("You will receive a confirmation by email.");
+        System.out.println("✅ Member registered successfully!");
+    }catch(IllegalArgumentException e){
+            System.out.println("⚠Registration Error! " + e.getMessage());
+            return;
+        }}
 
+    public boolean isValidEmail(String email){
+        return email !=null && email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"); //for gmail info
+    }
     public void delete(String membershipId) {
         if (membershipId == null || membershipId.isBlank() || !memberRepository.existsById(membershipId)) {//also empty blank
             throw new NoSuchElementException("Member with ID " + membershipId + " does not exist.");
