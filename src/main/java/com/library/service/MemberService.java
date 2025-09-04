@@ -3,6 +3,7 @@ package com.library.service;
 import com.library.model.Member;
 import com.library.repository.MemberRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -21,7 +22,7 @@ public class MemberService {
             }
 
             if (memberRepository.existsById(member.getMembershipId())) {
-                System.err.println("❌ Member with ID " + member.getMembershipId() + " already exists!");
+                System.err.println("❌ Member with ID " + member.getMembershipId() + " already exists.");
                 return;
             }
 
@@ -78,7 +79,7 @@ public class MemberService {
 
     public List<Member> listAll() {
         try {
-            System.out.println("📋 All Members:");
+            System.out.println("📋 All Members: ");
             return memberRepository.findAll();
         } catch (Exception e) {
             System.err.println("❌ Error fetching members: " + e.getMessage());
