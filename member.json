@@ -44,11 +44,6 @@
   "age" : 32,
   "contactDetails" : "sara.ahmed@example.com"
 }, {
-  "membershipId" : "1457265-0125",
-  "name" : "Victoria",
-  "age" : 27,
-  "contactDetails" : "epifanova.victoria.arkadievna@gmail.com"
-}, {
   "membershipId" : "1",
   "name" : "Alice Morgan",
   "age" : 23,
@@ -58,6 +53,11 @@
   "name" : "Brian Lee",
   "age" : 30,
   "contactDetails" : "brian.lee@example.com"
+}, {
+  "membershipId" : "123",
+  "name" : "Alex",
+  "age" : 34,
+  "contactDetails" : "123456"
 }, {
   "membershipId" : "3",
   "name" : "Cynthia Grant",
