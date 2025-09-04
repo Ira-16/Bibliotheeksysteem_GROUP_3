@@ -4,11 +4,9 @@ import com.library.model.Book;
 import com.library.model.Loan;
 import com.library.model.LoanStatus;
 import com.library.model.Member;
-import com.library.repository.BookRepository;
-import com.library.repository.LoanRepository;
-import com.library.repository.MemberRepository;
+import com.library.repository.*;
 
-
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +18,10 @@ public class LoanService {
     private final MemberRepository memberRepo;
     private final LoanRepository loanRepo;
 
-    private static final long DUE_SECONDS = 30L;
+    private static final boolean TEST_MODE = true;
+    private static final long TEST_DUE_SECONDS = 20L;
+    private static final long TEST_SECONDS_PER_DAY = 10L;
+    private static final int REAL_DUE_DAYS = 14;
     private static final int MAX_ACTIVE_LOANS = 5;
 
     public LoanService(BookRepository bookRepo, MemberRepository memberRepo, LoanRepository loanRepo) {
@@ -29,24 +30,17 @@ public class LoanService {
         this.loanRepo = loanRepo;
     }
 
-    private LocalDateTime calcDueDateTime(LocalDateTime borrowAt) {
-        return borrowAt.plusSeconds(DUE_SECONDS);
+    private LocalDateTime calcDueDateTime(LocalDateTime borrowAt, Member m) {
+        if (TEST_MODE) return borrowAt.plusSeconds(TEST_DUE_SECONDS);
+        return borrowAt.plusDays(REAL_DUE_DAYS);
     }
 
     public String lendBook(String membershipId, String isbn) {
-        Optional<Member> optionalMember = memberRepo.findById(membershipId);
-        if (optionalMember.isEmpty()) {
-            System.out.println("❌ Member with ID " + membershipId + " was not found in the system.");
-            return null;
-        }
-        Member member = optionalMember.get();
+        Member member = memberRepo.findById(membershipId)
+                .orElseThrow(() -> new IllegalArgumentException("MemberNotFound: " + membershipId));
 
-        Optional<Book> optionalBook = bookRepo.findByISBN(isbn);
-        if (optionalBook.isEmpty()) {
-            System.out.println("❌ Book with ISBN " + isbn + " was not found in the system.");
-            return null;
-        }
-        Book book = optionalBook.get();
+        Book book = bookRepo.findByISBN(isbn)
+                .orElseThrow(() -> new IllegalArgumentException("BookNotFound: " + isbn));
 
         List<Loan> actives = loanRepo.findActiveByMember(membershipId);
         if (actives.size() >= MAX_ACTIVE_LOANS)
@@ -59,7 +53,7 @@ public class LoanService {
         bookRepo.save(book);
 
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime due = calcDueDateTime(now);
+        LocalDateTime due = calcDueDateTime(now, member);
 
         Loan loan = new Loan(
                 UUID.randomUUID().toString(),
@@ -74,23 +68,21 @@ public class LoanService {
     }
 
     public int returnBook(String loanId) {
-        Optional<Loan> optionalLoan = loanRepo.findById(loanId);
-        if (optionalLoan.isEmpty()) {
-            System.out.println("❌ Loan with ID " + loanId + " was not found in the system.");
-            return -1; // Use -1 to indicate not found
-        }
-        Loan loan = optionalLoan.get();
+        Loan loan = loanRepo.findById(loanId)
+                .orElseThrow(() -> new IllegalArgumentException("LoanNotFound: " + loanId));
 
         Book book = bookRepo.findByISBN(loan.getIsbn())
                 .orElseThrow(() -> new IllegalStateException("BookMissingForLoan: " + loan.getIsbn()));
 
-        int fineEuros;
-        if (loan.isOverdue(LocalDateTime.now())) {
-            fineEuros = loan.calculateOverdueFine(LocalDateTime.now());
-            System.out.println("Book is overdue. Fine: " + fineEuros + "€");
-        } else {
-            fineEuros = 0;
-            System.out.println("Book returned on time. No fine.");
+        LocalDateTime now = LocalDateTime.now();
+        int fineEuros = 0;
+        if (loan.isOverdue(now)) {
+            long secondsLate = Duration.between(loan.getDueDateTime(), now).getSeconds();
+            if (secondsLate > 0) {
+                long unit = TEST_MODE ? TEST_SECONDS_PER_DAY : 86400L;
+                int daysLate = (int) Math.ceil(secondsLate / (double) unit);
+                fineEuros = Math.max(0, daysLate) * 1; // 1€ لكل يوم
+            }
         }
 
         loan.markReturned();
@@ -102,5 +94,8 @@ public class LoanService {
         return fineEuros;
     }
 
+    public Optional<Loan> getLoan(String loanId) { return loanRepo.findById(loanId); }
+
 
 }
+

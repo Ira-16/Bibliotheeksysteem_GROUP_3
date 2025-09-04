@@ -7,8 +7,8 @@ public class AdminService{
     private Admin logInAdmin;
     private final AdminRepository AdminRepository;
 
-    public AdminService(AdminRepository adminRepository){
-        this.AdminRepository = adminRepository;
+    public AdminService(AdminRepository userRepository){
+        this.AdminRepository = userRepository;
     }
 
     public Admin getLogInAdmin() {return logInAdmin;}
