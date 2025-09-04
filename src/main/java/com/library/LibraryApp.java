@@ -77,7 +77,7 @@ public class LibraryApp {
         if (adminService.isLoggedIn()) {
             showAdminMenu();
         } else {
-            System.out.println("❌ Login failed!");
+            System.out.println("❌ Login failed!!");
         }
     }
 

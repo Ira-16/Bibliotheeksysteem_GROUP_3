@@ -1,122 +1,106 @@
-[
-  {
-    "membershipId": "1",
-    "name": "Alice Morgan",
-    "age": 23,
-    "contactDetails": "alice.morgan@example.com"
-  },
-  {
-    "membershipId": "2",
-    "name": "Brian Lee",
-    "age": 30,
-    "contactDetails": "brian.lee@example.com"
-  },
-  {
-    "membershipId": "3",
-    "name": "Cynthia Grant",
-    "age": 17,
-    "contactDetails": "c.grant@example.com"
-  },
-  {
-    "membershipId": "4",
-    "name": "David Kim",
-    "age": 45,
-    "contactDetails": "dkim@example.com"
-  },
-  {
-    "membershipId": "5",
-    "name": "Ella Summers",
-    "age": 28,
-    "contactDetails": "ella.s@example.com"
-  },
-  {
-    "membershipId": "6",
-    "name": "Felix Tran",
-    "age": 19,
-    "contactDetails": "felix.t@example.com"
-  },
-  {
-    "membershipId": "7",
-    "name": "Grace Liu",
-    "age": 22,
-    "contactDetails": "grace.liu@example.com"
-  },
-  {
-    "membershipId": "8",
-    "name": "Harry Thompson",
-    "age": 35,
-    "contactDetails": "harry.t@example.com"
-  },
-  {
-    "membershipId": "9",
-    "name": "Isla Bennett",
-    "age": 16,
-    "contactDetails": "isla.b@example.com"
-  },
-  {
-    "membershipId": "10",
-    "name": "Jack O'Neil",
-    "age": 41,
-    "contactDetails": "jack.oneil@example.com"
-  },
-  {
-    "membershipId": "11",
-    "name": "Kylie Fisher",
-    "age": 26,
-    "contactDetails": "k.fisher@example.com"
-  },
-  {
-    "membershipId": "12",
-    "name": "Leo Roberts",
-    "age": 38,
-    "contactDetails": "leo.r@example.com"
-  },
-  {
-    "membershipId": "13",
-    "name": "Mia Clarkson",
-    "age": 21,
-    "contactDetails": "mia.c@example.com"
-  },
-  {
-    "membershipId": "14",
-    "name": "Noah Patel",
-    "age": 33,
-    "contactDetails": "noah.patel@example.com"
-  },
-  {
-    "membershipId": "15",
-    "name": "Olivia Adams",
-    "age": 29,
-    "contactDetails": "olivia.adams@example.com"
-  },
-  {
-    "membershipId": "16",
-    "name": "Paul Smith",
-    "age": 50,
-    "contactDetails": "paul.smith@example.com"
-  },
-  {
-    "membershipId": "17",
-    "name": "Queenie Zhao",
-    "age": 27,
-    "contactDetails": "queenie.z@example.com"
-  },
-  {
-    "membershipId": "18",
-    "name": "Ryan Cooper",
-    "age": 24,
-    "contactDetails": "ryan.c@example.com"
-  },
-  {
-    "membershipId": "19",
-    "name": "Sara Ahmed",
-    "age": 32,
-    "contactDetails": "sara.ahmed@example.com"
-  },
-  {
-    "membershipId": "20",
-    "name": "Tommy White",
-    "age": 18,
-    "contactDetails": "tommy.white@example.com"
-  }
-]
+[ {
+  "membershipId" : "11",
+  "name" : "Kylie Fisher",
+  "age" : 26,
+  "contactDetails" : "k.fisher@example.com"
+}, {
+  "membershipId" : "12",
+  "name" : "Leo Roberts",
+  "age" : 38,
+  "contactDetails" : "leo.r@example.com"
+}, {
+  "membershipId" : "13",
+  "name" : "Mia Clarkson",
+  "age" : 21,
+  "contactDetails" : "mia.c@example.com"
+}, {
+  "membershipId" : "14",
+  "name" : "Noah Patel",
+  "age" : 33,
+  "contactDetails" : "noah.patel@example.com"
+}, {
+  "membershipId" : "15",
+  "name" : "Olivia Adams",
+  "age" : 29,
+  "contactDetails" : "olivia.adams@example.com"
+}, {
+  "membershipId" : "16",
+  "name" : "Paul Smith",
+  "age" : 50,
+  "contactDetails" : "paul.smith@example.com"
+}, {
+  "membershipId" : "17",
+  "name" : "Queenie Zhao",
+  "age" : 27,
+  "contactDetails" : "queenie.z@example.com"
+}, {
+  "membershipId" : "18",
+  "name" : "Ryan Cooper",
+  "age" : 24,
+  "contactDetails" : "ryan.c@example.com"
+}, {
+  "membershipId" : "19",
+  "name" : "Sara Ahmed",
+  "age" : 32,
+  "contactDetails" : "sara.ahmed@example.com"
+}, {
+  "membershipId" : "1",
+  "name" : "Alice Morgan",
+  "age" : 23,
+  "contactDetails" : "alice.morgan@example.com"
+}, {
+  "membershipId" : "2",
+  "name" : "Brian Lee",
+  "age" : 30,
+  "contactDetails" : "brian.lee@example.com"
+}, {
+  "membershipId" : "123",
+  "name" : "Alex",
+  "age" : 34,
+  "contactDetails" : "123456"
+}, {
+  "membershipId" : "3",
+  "name" : "Cynthia Grant",
+  "age" : 17,
+  "contactDetails" : "c.grant@example.com"
+}, {
+  "membershipId" : "4",
+  "name" : "David Kim",
+  "age" : 45,
+  "contactDetails" : "dkim@example.com"
+}, {
+  "membershipId" : "5",
+  "name" : "Ella Summers",
+  "age" : 28,
+  "contactDetails" : "ella.s@example.com"
+}, {
+  "membershipId" : "6",
+  "name" : "Felix Tran",
+  "age" : 19,
+  "contactDetails" : "felix.t@example.com"
+}, {
+  "membershipId" : "7",
+  "name" : "Grace Liu",
+  "age" : 22,
+  "contactDetails" : "grace.liu@example.com"
+}, {
+  "membershipId" : "8",
+  "name" : "Harry Thompson",
+  "age" : 35,
+  "contactDetails" : "harry.t@example.com"
+}, {
+  "membershipId" : "9",
+  "name" : "Isla Bennett",
+  "age" : 16,
+  "contactDetails" : "isla.b@example.com"
+}, {
+  "membershipId" : "20",
+  "name" : "Tommy White",
+  "age" : 18,
+  "contactDetails" : "tommy.white@example.com"
+}, {
+  "membershipId" : "10",
+  "name" : "Jack O'Neil",
+  "age" : 41,
+  "contactDetails" : "jack.oneil@example.com"
+} ]
