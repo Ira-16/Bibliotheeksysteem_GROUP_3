@@ -126,7 +126,11 @@ public class LibraryApp {
             System.out.println("\n===== 👤 MEMBER MENU =====");
             System.out.println("1. 📖 Borrow Book");
             System.out.println("2. 📦 Return Book");
-            System.out.println("3. 📚 View All Books");
+            System.out.println("3. 🔍 Search by Title");
+            System.out.println("4. 🔍 Search by ISBN");
+            System.out.println("5. 🔍 Search by Author");
+            System.out.println("6. 🔍 Search by Year");
+            System.out.println("7. 📚 View All Books");
             System.out.println("0. 🔙 Logout");
             System.out.print("👉 Choose: ");
             String choice = scanner.nextLine();
@@ -134,12 +138,41 @@ public class LibraryApp {
             switch (choice) {
                 case "1" -> lendBookAsMember(member);
                 case "2" -> returnBookUI(member);
-                case "3" -> bookService.listAll().forEach(System.out::println);
+                case "3" -> {
+                    System.out.print("Title: ");
+                    bookService.searchBooksByTitle(scanner.nextLine()).forEach(System.out::println);
+                }
+                case "4" -> {
+                    System.out.print("ISBN: ");
+                    System.out.println(bookService.searchBookByISBN(scanner.nextLine()));
+                }
+                case "5" -> {
+                    System.out.print("Author: ");
+                    bookService.searchBooksByAuthor(scanner.nextLine()).forEach(System.out::println);
+                }
+                case "6" -> {
+                    int year;
+                    while (true) {
+                        System.out.print("Year: ");
+                        String input = scanner.nextLine();
+                        try {
+                            year = Integer.parseInt(input);
+                            break; // valid input, break the loop
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid input. Please enter a valid numeric year.");
+                        }
+                    }
+
+                    bookService.searchByYear(year)
+                            .forEach(System.out::println);
+                }
+                case "7" -> bookService.listAll().forEach(System.out::println);
                 case "0" -> {
                     System.out.println("👋 Logged out.");
                     return;
                 }
                 default -> System.out.println("⚠️ Invalid choice!");
+
             }
         }
     }
@@ -194,8 +227,20 @@ public class LibraryApp {
                 bookService.searchBooksByAuthor(scanner.nextLine()).forEach(System.out::println);
             }
             case "7" -> {
-                System.out.print("Year: ");
-                bookService.searchByYear(Integer.parseInt(scanner.nextLine())).forEach(System.out::println);
+                int year;
+                while (true) {
+                    System.out.print("Year: ");
+                    String input = scanner.nextLine();
+                    try {
+                        year = Integer.parseInt(input);
+                        break; // valid input, break the loop
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a valid numeric year.");
+                    }
+                }
+
+                bookService.searchByYear(year)
+                        .forEach(System.out::println);
             }
             case "8" -> bookService.listAll().forEach(System.out::println);
             case "0" -> {}
