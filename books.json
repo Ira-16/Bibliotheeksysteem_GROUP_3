@@ -1,13 +1,121 @@
 [ {
-  "title" : "100",
-  "author" : "100",
-  "publishedYear" : 100,
-  "isbn" : "100",
-  "availableCopies" : 97
+  "title" : "Paths Unseen",
+  "author" : "George Aiken",
+  "publishedYear" : 2019,
+  "isbn" : "9780593139134",
+  "availableCopies" : 6
 }, {
-  "title" : "Test Book",
-  "author" : "Test Author",
-  "publishedYear" : 2023,
-  "isbn" : "1234567890",
+  "title" : "Artificial Minds",
+  "author" : "Liam Brooks",
+  "publishedYear" : 2020,
+  "isbn" : "9781451648539",
+  "availableCopies" : 9
+}, {
+  "title" : "Fire and Frost",
+  "author" : "Monica Duran",
+  "publishedYear" : 2016,
+  "isbn" : "9780553418026",
+  "availableCopies" : 8
+}, {
+  "title" : "Shadowlight",
+  "author" : "Vera Knight",
+  "publishedYear" : 2021,
+  "isbn" : "9781984806956",
+  "availableCopies" : 7
+}, {
+  "title" : "Blue Dust",
+  "author" : "Aisha Navarro",
+  "publishedYear" : 2018,
+  "isbn" : "9780735219090",
+  "availableCopies" : 3
+}, {
+  "title" : "Crimson Skies",
+  "author" : "Tom Weller",
+  "publishedYear" : 2022,
+  "isbn" : "9780062316097",
+  "availableCopies" : 8
+}, {
+  "title" : "Infinite Dreams",
+  "author" : "Lana Reyes",
+  "publishedYear" : 2013,
+  "isbn" : "9780345806788",
+  "availableCopies" : 4
+}, {
+  "title" : "Windswept",
+  "author" : "Mark Nolan",
+  "publishedYear" : 2022,
+  "isbn" : "9781400069289",
+  "availableCopies" : 9
+}, {
+  "title" : "Children of Ember",
+  "author" : "Isaac Young",
+  "publishedYear" : 2014,
+  "isbn" : "9780441016887",
   "availableCopies" : 1
+}, {
+  "title" : "Quantum Shadows",
+  "author" : "Derek Faye",
+  "publishedYear" : 2021,
+  "isbn" : "9780671027360",
+  "availableCopies" : 7
+}, {
+  "title" : "Legacy of the Stars",
+  "author" : "Hannah Lin",
+  "publishedYear" : 2018,
+  "isbn" : "9780307279460",
+  "availableCopies" : 3
+}, {
+  "title" : "Final Reckoning",
+  "author" : "Rebecca Stone",
+  "publishedYear" : 2020,
+  "isbn" : "9780765377067",
+  "availableCopies" : 3
+}, {
+  "title" : "The Electric Soul",
+  "author" : "Jonas Marks",
+  "publishedYear" : 2024,
+  "isbn" : "9780062963673",
+  "availableCopies" : 12
+}, {
+  "title" : "The Glass Tower",
+  "author" : "Julian Voss",
+  "publishedYear" : 2023,
+  "isbn" : "9780385545969",
+  "availableCopies" : 10
+}, {
+  "title" : "Beyond the Wall",
+  "author" : "Henry Falk",
+  "publishedYear" : 2012,
+  "isbn" : "9780385538640",
+  "availableCopies" : 2
+}, {
+  "title" : "Echoes of Time",
+  "author" : "Nora Adams",
+  "publishedYear" : 2016,
+  "isbn" : "9780553386790",
+  "availableCopies" : 2
+}, {
+  "title" : "Whispers of the Past",
+  "author" : "Diana Lee",
+  "publishedYear" : 2017,
+  "isbn" : "9780316484100",
+  "availableCopies" : 5
+}, {
+  "title" : "The Silent Forest",
+  "author" : "Emily Hart",
+  "publishedYear" : 2015,
+  "isbn" : "9780143128540",
+  "availableCopies" : 4
+}, {
+  "title" : "Beneath the Waves",
+  "author" : "Clara Johnson",
+  "publishedYear" : 2019,
+  "isbn" : "9781982137274",
+  "availableCopies" : 6
+}, {
+  "title" : "Broken Compass",
+  "author" : "Sophie Green",
+  "publishedYear" : 2017,
+  "isbn" : "9780345539434",
+  "availableCopies" : 5
 } ]
