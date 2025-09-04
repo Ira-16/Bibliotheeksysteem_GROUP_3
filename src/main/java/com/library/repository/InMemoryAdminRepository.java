@@ -1,13 +1,14 @@
 package com.library.repository;
 
 import com.library.model.Admin;
+import com.library.model.Member;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class InMemoryAdminRepository implements AdminRepository {
 
-    private Map<String,Admin> admins = new HashMap<>();
+    private final Map<String,Admin> admins = new HashMap<>();
 
     public void save(Admin admin){
         admins.put(admin.getUserName(), admin);
@@ -21,3 +22,4 @@ public class InMemoryAdminRepository implements AdminRepository {
         admins.remove(admin.getUserName());
     }
 }
+

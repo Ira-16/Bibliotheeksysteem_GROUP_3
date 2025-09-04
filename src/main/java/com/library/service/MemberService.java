@@ -3,7 +3,6 @@ package com.library.service;
 import com.library.model.Member;
 import com.library.repository.MemberRepository;
 
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -54,6 +53,7 @@ public class MemberService {
     }
 
     public Member findById(String membershipId) {
-        return memberRepository.findById(membershipId).orElse(null);
+        return memberRepository.findById(membershipId)
+                .orElseThrow(() -> new NoSuchElementException("Member with ID " + membershipId + " not found."));
     }
 }
