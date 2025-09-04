@@ -12,48 +12,89 @@ public class MemberService {
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
+
     public void register(Member member) {
-        if (member == null || member.getMembershipId() == null) {
-            throw new IllegalArgumentException("Member or Membership ID must not be null.");
-        }
+        try {
+            if (member == null || member.getMembershipId() == null) {
+                System.err.println("❌ Member or Membership ID must not be null.");
+                return;
+            }
 
-        if (memberRepository.existsById(member.getMembershipId())) {
-            throw new IllegalArgumentException("Member with ID " + member.getMembershipId() + " already exists.");
-        }
+            if (memberRepository.existsById(member.getMembershipId())) {
+                System.err.println("❌ Member with ID " + member.getMembershipId() + " already exists!");
+                return;
+            }
 
-        memberRepository.save(member);
-        System.out.println("✅ Member registered: " + member.getName());
+            memberRepository.save(member);
+            System.out.println("✅ Member registered: " + member.getName());
+
+        } catch (Exception e) {
+            System.err.println("❌ Unexpected error during registration: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void delete(String membershipId) {
-        if (membershipId == null || membershipId.isBlank() || !memberRepository.existsById(membershipId)) {//also empty blank
-            throw new NoSuchElementException("Member with ID " + membershipId + " does not exist.");
-        }
+        try {
+            if (membershipId == null || membershipId.isBlank()) {
+                System.err.println("❌ Membership ID is null or blank.");
+                return;
+            }
 
-        memberRepository.deleteById(membershipId);
-        System.out.println("✅ Member deleted: " + membershipId);
+            if (!memberRepository.existsById(membershipId)) {
+                System.err.println("❌ Member with ID " + membershipId + " does not exist.");
+                return;
+            }
+
+            memberRepository.deleteById(membershipId);
+            System.out.println("✅ Member deleted: " + membershipId);
+
+        } catch (Exception e) {
+            System.err.println("❌ Unexpected error during deletion: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void edit(Member member) {
-        if (member == null || member.getMembershipId() == null || member.getMembershipId().isBlank()) {//also it can be empty
-            throw new IllegalArgumentException("Member or Membership ID must not be null.");
-        }
+        try {
+            if (member == null || member.getMembershipId() == null || member.getMembershipId().isBlank()) {
+                System.err.println("❌ Member or Membership ID must not be null or blank.");
+                return;
+            }
 
-        if (!memberRepository.existsById(member.getMembershipId())) {
-            throw new NoSuchElementException("Member with ID " + member.getMembershipId() + " does not exist.");
-        }
+            if (!memberRepository.existsById(member.getMembershipId())) {
+                System.err.println("❌ Member with ID " + member.getMembershipId() + " does not exist.");
+                return;
+            }
 
-        memberRepository.save(member);
-        System.out.println("✅ Member updated: " + member.getName());
+            memberRepository.save(member);
+            System.out.println("✅ Member updated: " + member.getName());
+
+        } catch (Exception e) {
+            System.err.println("❌ Unexpected error during update: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    public List<Member> listAll() { //with list it is better and short
-        System.out.println("📋 All Members:");
-        return memberRepository.findAll();
+    public List<Member> listAll() {
+        try {
+            System.out.println("📋 All Members:");
+            return memberRepository.findAll();
+        } catch (Exception e) {
+            System.err.println("❌ Error fetching members: " + e.getMessage());
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
     public Member findById(String membershipId) {
-        return memberRepository.findById(membershipId)
-                .orElseThrow(() -> new NoSuchElementException("Member with ID " + membershipId + " not found."));
+        try {
+            return memberRepository.findById(membershipId).orElse(null);
+        } catch (Exception e) {
+            System.err.println("❌ Error finding member with ID " + membershipId + ": " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }
