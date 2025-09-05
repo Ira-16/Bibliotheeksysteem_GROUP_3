@@ -13,28 +13,29 @@ public class MemberService {
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
-
     public void register(Member member) {
-        try {
-            if (member == null || member.getMembershipId() == null) {
-                System.err.println("❌ Member or Membership ID must not be null.");
-                return;
-            }
-
-            if (memberRepository.existsById(member.getMembershipId())) {
-                System.err.println("❌ Member with ID " + member.getMembershipId() + " already exists.");
-                return;
-            }
-
-            memberRepository.save(member);
-            System.out.println("✅ Member registered: " + member.getName());
-
-        } catch (Exception e) {
-            System.err.println("❌ Unexpected error during registration: " + e.getMessage());
-            e.printStackTrace();
+        try{
+        if (member == null || member.getMembershipId() == null) {
+            throw new IllegalArgumentException("Member or Membership ID must not be null.");
         }
-    }
+        if(!isValidEmail(member.getContactDetails())){
+            throw new IllegalArgumentException("Invalid email address: " + member.getContactDetails());
+        }
+        if (memberRepository.existsById(member.getMembershipId())) {
+            throw new IllegalArgumentException("Member with ID " + member.getMembershipId() + " already exists.");
+        }
+        memberRepository.save(member);
+        System.out.println("Thank you for information, " + member.getName() + "!");
+        System.out.println("You will receive a confirmation by email.");
+        System.out.println("✅ Member registered successfully!");
+    }catch(IllegalArgumentException e){
+            System.out.println("⚠Registration Error! " + e.getMessage());
+            return;
+        }}
 
+    public boolean isValidEmail(String email){
+        return email !=null && email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"); //for gmail info
+    }
     public void delete(String membershipId) {
         try {
             if (membershipId == null || membershipId.isBlank()) {
@@ -76,7 +77,6 @@ public class MemberService {
             e.printStackTrace();
         }
     }
-
     public List<Member> listAll() {
         try {
             System.out.println("📋 All Members: ");
@@ -95,7 +95,5 @@ public class MemberService {
             System.err.println("❌ Error finding member with ID " + membershipId + ": " + e.getMessage());
             e.printStackTrace();
             return null;
-        }
-
-    }
+        }}
 }

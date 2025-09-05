@@ -96,7 +96,6 @@ public class LibraryApp {
     private void signUpMember() {
         System.out.println("🆕 Member Registration:");
         addMemberUI();
-        System.out.println("✅ Member registered successfully!");
     }
 
     private void showAdminMenu() {
@@ -321,7 +320,7 @@ public class LibraryApp {
         String name = scanner.nextLine();
         System.out.print("Age: ");
         int age = Integer.parseInt(scanner.nextLine());
-        System.out.print("Contact Info: ");
+        System.out.print("Email: ");
         String contact = scanner.nextLine();
         memberService.register(new Member(id, name, age, contact));
     }
