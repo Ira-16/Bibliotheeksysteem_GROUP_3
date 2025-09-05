@@ -24,7 +24,7 @@ public class Member {
 
     public int getAge() {return age;}
     public void setAge(int age) {
-        if(age<0) throw new IllegalArgumentException("Age can not be negative!"); //logical
+        if(age<0) throw new IllegalArgumentException("Age can not be negative!!"); //logical
         this.age = age;}
 
     public String getContactDetails() {return contactDetails;}
