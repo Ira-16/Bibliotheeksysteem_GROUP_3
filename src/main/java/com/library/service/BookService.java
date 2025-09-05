@@ -28,10 +28,13 @@ public class BookService {
 
 
     public void removeBook(Book book) {
+        try{
         repository.findByISBN(book.getISBN())
                 .orElseThrow(() -> new NoSuchElementException("Book not found: " + book.getISBN()));
         repository.delete(book);
-    }
+    }catch (NoSuchElementException e){
+            System.out.println(e.getMessage());
+        }}
 
 
     public void editBook(Book book) {
