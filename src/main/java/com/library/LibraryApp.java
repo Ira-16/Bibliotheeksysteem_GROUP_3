@@ -24,7 +24,7 @@ public class LibraryApp {
     }
 
     private void run() {
-        mainAdmin(); // create default admin
+        mainAdmin();
         while (true) {
             showStartMenu();
         }
@@ -179,20 +179,28 @@ public class LibraryApp {
     // Admin-Only: Add other Admins
     private void registerAdminUI() {
         if (adminService.isLoggedIn()) {
-            System.out.print("Name of new Admin: ");
-            String user = scanner.nextLine();
-            System.out.print("Password: ");
-            String pass = scanner.nextLine();
-            System.out.print("Employee ID: ");
-            String empId = scanner.nextLine();
+            try {
+                System.out.print("Name of new Admin: ");
+                String user = scanner.nextLine();
 
-            Admin newAdmin = new Admin(user, pass, empId);
-            adminRepo.save(newAdmin);
-            System.out.println("✅ New admin added: " + user);
+                System.out.print("Password: ");
+                String pass = scanner.nextLine();
+
+                System.out.print("Employee ID: ");
+                String empId = scanner.nextLine();
+
+                Admin newAdmin = new Admin(user, pass, empId);
+                adminRepo.save(newAdmin);
+                System.out.println("✅ New admin added: " + user);
+
+            } catch (Exception e) {
+                System.err.println("❌ Error adding new admin: " + e.getMessage());
+            }
         } else {
-            System.out.println("⚠️ Only main admin can add new admins!");
+            System.out.println("⚠️ Only the main admin can add new admins!");
         }
     }
+
 
     // Book Management
     private void manageBooks() {
@@ -248,47 +256,82 @@ public class LibraryApp {
     }
 
     private void addBookUI() {
-        System.out.print("ISBN: ");
-        String isbn = scanner.nextLine();
-        System.out.print("Title: ");
-        String title = scanner.nextLine();
-        System.out.print("Author: ");
-        String author = scanner.nextLine();
-        System.out.print("Year: ");
-        int year = Integer.parseInt(scanner.nextLine());
-        System.out.print("Total Copies: ");
-        int copies = Integer.parseInt(scanner.nextLine());
-        bookService.addBook(new Book(title, author, year, isbn, copies));
-        System.out.println("✅ Book added!");
+        try {
+            System.out.print("ISBN: ");
+            String isbn = scanner.nextLine();
+
+            System.out.print("Title: ");
+            String title = scanner.nextLine();
+
+            System.out.print("Author: ");
+            String author = scanner.nextLine();
+
+            System.out.print("Year: ");
+            String yearInput = scanner.nextLine();
+            int year = Integer.parseInt(yearInput);
+
+            System.out.print("Total Copies: ");
+            String copiesInput = scanner.nextLine();
+            int copies = Integer.parseInt(copiesInput);
+
+            bookService.addBook(new Book(title, author, year, isbn, copies));
+            System.out.println("✅ Book added!");
+
+        } catch (NumberFormatException e) {
+            System.err.println("❌ Invalid number entered. Please enter a valid year and number of copies.");
+        } catch (Exception e) {
+            System.err.println("❌ Error adding book: " + e.getMessage());
+        }
     }
+
 
     private void editBookUI() {
-        System.out.print("Enter ISBN to edit: ");
-        String isbn = scanner.nextLine();
-        Book book = bookService.searchBookByISBN(isbn);
-        if (book == null) {
-            System.out.println("❌ Book not found.");
-            return;
+        try {
+            System.out.print("Enter ISBN to edit: ");
+            String isbn = scanner.nextLine();
+
+            Book book = bookService.searchBookByISBN(isbn);
+            if (book == null) {
+                System.out.println("❌ Book not found.");
+                return;
+            }
+
+            System.out.print("New Title (" + book.getTitle() + "): ");
+            String newTitle = scanner.nextLine();
+            if (!newTitle.isBlank()) {
+                book.setTitle(newTitle);
+            }
+
+            System.out.print("New Author (" + book.getAuthor() + "): ");
+            String newAuthor = scanner.nextLine();
+            if (!newAuthor.isBlank()) {
+                book.setAuthor(newAuthor);
+            }
+
+            bookService.editBook(book);
+            System.out.println("✅ Book updated!");
+
+        } catch (Exception e) {
+            System.err.println("❌ Error editing book: " + e.getMessage());
         }
-        System.out.print("New Title (" + book.getTitle() + "): ");
-        String newTitle = scanner.nextLine();
-        if (!newTitle.isBlank()) book.setTitle(newTitle);
-        System.out.print("New Author (" + book.getAuthor() + "): ");
-        String newAuthor = scanner.nextLine();
-        if (!newAuthor.isBlank()) book.setAuthor(newAuthor);
-        bookService.editBook(book);
-        System.out.println("✅ Book updated!");
     }
 
+
     private void deleteBookUI() {
-        System.out.print("Enter ISBN to remove: ");
-        String isbn = scanner.nextLine();
-        Book book = bookService.searchBookByISBN(isbn);
-        if (book != null) {
-            bookService.removeBook(book);
-            System.out.println("✅ Book removed!");
-        } else {
-            System.out.println("❌ Book not found.");
+        try {
+            System.out.print("Enter ISBN to remove: ");
+            String isbn = scanner.nextLine();
+
+            Book book = bookService.searchBookByISBN(isbn);
+            if (book != null) {
+                bookService.removeBook(book);
+                System.out.println("✅ Book removed!");
+            } else {
+                System.out.println("❌ Book not found.");
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Error removing book: " + e.getMessage());
         }
     }
 
@@ -314,38 +357,70 @@ public class LibraryApp {
     }
 
     private void addMemberUI() {
-        System.out.print("ID: ");
-        String id = scanner.nextLine();
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
-        System.out.print("Age: ");
-        int age = Integer.parseInt(scanner.nextLine());
-        System.out.print("Email: ");
-        String contact = scanner.nextLine();
-        memberService.register(new Member(id, name, age, contact));
+        try {
+            System.out.print("ID: ");
+            String id = scanner.nextLine();
+
+            System.out.print("Name: ");
+            String name = scanner.nextLine();
+
+            System.out.print("Age: ");
+            String ageInput = scanner.nextLine();
+            int age = Integer.parseInt(ageInput);  // May throw NumberFormatException
+
+            System.out.print("Email: ");
+            String contact = scanner.nextLine();
+
+            memberService.register(new Member(id, name, age, contact));
+            System.out.println("✅ Member registered!");
+
+        } catch (NumberFormatException e) {
+            System.err.println("❌ Invalid age. Please enter a valid number.");
+        } catch (Exception e) {
+            System.err.println("❌ Error registering member: " + e.getMessage());
+        }
     }
+
 
     private void editMemberUI() {
-        System.out.print("Enter ID to edit: ");
-        String id = scanner.nextLine();
-        Member m = memberService.findById(id);
-        if (m == null) {
-            System.out.println("❌ Member not found.");
-            return;
+        try {
+            System.out.print("Enter ID to edit: ");
+            String id = scanner.nextLine();
+
+            Member m = memberService.findById(id);
+            if (m == null) {
+                System.out.println("❌ Member not found.");
+                return;
+            }
+
+            System.out.print("New Name (" + m.getName() + "): ");
+            String newName = scanner.nextLine();
+            if (!newName.isBlank()) {
+                m.setName(newName);
+            }
+
+            memberService.edit(m);
+            System.out.println("✅ Member updated.");
+
+        } catch (Exception e) {
+            System.err.println("❌ Error editing member: " + e.getMessage());
         }
-        System.out.print("New Name (" + m.getName() + "): ");
-        String newName = scanner.nextLine();
-        if (!newName.isBlank()) m.setName(newName);
-        memberService.edit(m);
-        System.out.println("✅ Member updated.");
     }
 
+
     private void deleteMemberUI() {
-        System.out.print("Enter ID to delete: ");
-        String id = scanner.nextLine();
-        memberService.delete(id);
-        System.out.println("✅ Member deleted.");
+        try {
+            System.out.print("Enter ID to delete: ");
+            String id = scanner.nextLine();
+
+            memberService.delete(id);
+            System.out.println("✅ Member deleted.");
+
+        } catch (Exception e) {
+            System.err.println("❌ Error deleting member: " + e.getMessage());
+        }
     }
+
 
     // Loans
     private void manageLoans() {
@@ -365,53 +440,85 @@ public class LibraryApp {
     }
 
     private void lendBookUI() {
-        System.out.print("Member ID: ");
-        String mid = scanner.nextLine();
-        Member member = memberService.findById(mid);
-        if (member == null) {
-            System.out.println("❌ Member with ID " + mid + " was not found.");
-            return;
-        }
-        System.out.print("ISBN: ");
-        String isbn = scanner.nextLine();
-        String loanId = loanService.lendBook(mid, isbn);
-        if (loanId != null) {
-            System.out.println("✅ Book lent. Loan ID: " + loanId);
+        try {
+            System.out.print("Member ID: ");
+            String mid = scanner.nextLine();
+
+            Member member = memberService.findById(mid);
+            if (member == null) {
+                System.out.println("❌ Member with ID " + mid + " was not found.");
+                return;
+            }
+
+            System.out.print("ISBN: ");
+            String isbn = scanner.nextLine();
+
+            String loanId = loanService.lendBook(mid, isbn);
+            if (loanId != null) {
+                System.out.println("✅ Book lent. Loan ID: " + loanId);
+            } else {
+                System.out.println("❌ Could not lend book. Please check availability and try again.");
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Error lending book: " + e.getMessage());
         }
     }
+
 
     private void lendBookAsMember(Member member) {
-        System.out.print("ISBN: ");
-        String isbn = scanner.nextLine();
-        String loanId = loanService.lendBook(member.getMembershipId(), isbn);
-        if (loanId != null) {
-            System.out.println("✅ Book lent. Loan ID: " + loanId);
+        try {
+            System.out.print("ISBN: ");
+            String isbn = scanner.nextLine();
+
+            String loanId = loanService.lendBook(member.getMembershipId(), isbn);
+            if (loanId != null) {
+                System.out.println("✅ Book lent. Loan ID: " + loanId);
+            } else {
+                System.out.println("❌ Could not lend book. Please check availability and try again.");
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Error lending book: " + e.getMessage());
         }
     }
 
+
     private void returnBookUI(Member member) {
-        var activeLoans = loanRepo.findActiveByMember(member.getMembershipId());
-        if (activeLoans == null || activeLoans.isEmpty()) {
-            System.out.println("⚠️ You have not borrowed any books yet.");
-            System.out.println("📭 Your loan list is empty.");
-            return;
-        }
-        System.out.print("Loan ID: ");
-        String loanId = scanner.nextLine();
-        int fine = loanService.returnBook(loanId);
-        if (fine == -1) {
-            System.out.println("❗ write the Loan ID correctly.");
-            return;
-        }
-        if (fine > 0) {
-            System.out.println("⚠️ Late return. Fine: " + fine + "€");
-        } else {
-            System.out.println("✅ Book returned.");
+        try {
+            var activeLoans = loanRepo.findActiveByMember(member.getMembershipId());
+            if (activeLoans == null || activeLoans.isEmpty()) {
+                System.out.println("⚠️ You have not borrowed any books yet.");
+                System.out.println("📭 Your loan list is empty.");
+                return;
+            }
+
+            System.out.print("Loan ID: ");
+            String loanId = scanner.nextLine();
+
+            int fine = loanService.returnBook(loanId);
+            if (fine == -1) {
+                System.out.println("❗ Please write the Loan ID correctly.");
+                return;
+            }
+
+            if (fine > 0) {
+                System.out.println("⚠️ Late return. Fine: " + fine + "€");
+            } else {
+                System.out.println("✅ Book returned.");
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Error returning book: " + e.getMessage());
         }
     }
+
 
     // Exit
     private void exitProgram() {
+
         System.out.println("👋 Goodbye!");
+        System.exit(0);
+
     }
 }

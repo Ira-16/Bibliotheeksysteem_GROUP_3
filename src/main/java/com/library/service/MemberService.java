@@ -29,7 +29,7 @@ public class MemberService {
         System.out.println("You will receive a confirmation by email.");
         System.out.println("✅ Member registered successfully!");
     }catch(IllegalArgumentException e){
-            System.out.println("⚠Registration Error! " + e.getMessage());
+            System.err.println("⚠Registration Error! " + e.getMessage());
             return;
         }}
 

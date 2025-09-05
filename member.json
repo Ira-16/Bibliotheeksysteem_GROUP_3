@@ -74,6 +74,11 @@
   "age" : 28,
   "contactDetails" : "ella.s@example.com"
 }, {
+  "membershipId" : "1234",
+  "name" : "chaima",
+  "age" : 28,
+  "contactDetails" : "hajji@gmail.com"
+}, {
   "membershipId" : "6",
   "name" : "Felix Tran",
   "age" : 19,

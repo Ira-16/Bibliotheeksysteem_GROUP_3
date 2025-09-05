@@ -19,31 +19,49 @@ public class BookService {
 
 
     public void addBook(Book book) {
-        validateNewBook(book);
-        if (repository.findByISBN(book.getISBN()).isPresent()) {
-            throw new IllegalArgumentException("Book with this ISBN already exists: " + book.getISBN());
+        try {
+            validateNewBook(book);
+
+            if (repository.findByISBN(book.getISBN()).isPresent()) {
+                throw new IllegalArgumentException("Book with this ISBN already exists: " + book.getISBN());
+            }
+
+            repository.save(book);
+            System.out.println("Book added successfully.");
+
+        } catch (Exception e) {
+            System.err.println("Error adding book: " + e.getMessage());
         }
-        repository.save(book);
     }
 
 
     public void removeBook(Book book) {
-        try{
-        repository.findByISBN(book.getISBN())
-                .orElseThrow(() -> new NoSuchElementException("Book not found: " + book.getISBN()));
-        repository.delete(book);
-    }catch (NoSuchElementException e){
-            System.out.println(e.getMessage());
-        }}
+        try {
+            repository.findByISBN(book.getISBN())
+                    .orElseThrow(() -> new NoSuchElementException("Book not found: " + book.getISBN()));
+
+            repository.delete(book);
+            System.out.println("Book removed successfully.");
+
+        } catch (Exception e) {
+            System.err.println("Error removing book: " + e.getMessage());
+        }
+    }
 
 
     public void editBook(Book book) {
-        repository.findByISBN(book.getISBN())
-                .orElseThrow(() -> new NoSuchElementException("Book not found: " + book.getISBN()));
-        validateEditable(book);
-        repository.save(book);
-    }
+        try {
+            repository.findByISBN(book.getISBN())
+                    .orElseThrow(() -> new NoSuchElementException("Book not found: " + book.getISBN()));
 
+            validateEditable(book);
+            repository.save(book);
+            System.out.println("Book updated successfully.");
+
+        } catch (Exception e) {
+            System.err.println("Error editing book: " + e.getMessage());
+        }
+    }
 
     public List<Book> searchBooksByTitle(String title) {
         try {
@@ -53,13 +71,10 @@ public class BookService {
             }
             return books;
         } catch (NoSuchElementException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return Collections.emptyList();
         }
     }
-
-
-
 
     public List<Book> searchBooksByAuthor(String author) {
         try {
@@ -69,25 +84,21 @@ public class BookService {
             }
             return books;
         } catch (NoSuchElementException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return Collections.emptyList();
         }
     }
 
 
 
-//    public Book searchBookByISBN(String isbn) {
-//        return repository.findByISBN(isbn)
-//                .orElseThrow(() -> new NoSuchElementException("No books found with isbn containing: \"" + isbn + "\""));
-//    }
 
     public Book searchBookByISBN(String isbn) {
         try {
             return repository.findByISBN(isbn)
                     .orElseThrow(() -> new NoSuchElementException("No book found with ISBN: \"" + isbn + "\""));
         } catch (NoSuchElementException e) {
-            System.out.println(e.getMessage()); // Replace with logger if needed
-            return null; // Or throw a custom exception, or return a default Book
+            System.err.println(e.getMessage());
+            return null;
         }
     }
 
@@ -102,7 +113,7 @@ public class BookService {
 
             return books;
         } catch (NoSuchElementException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return Collections.emptyList();
         }
     }
