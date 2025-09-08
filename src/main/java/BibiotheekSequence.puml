@@ -1,0 +1,58 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Admin
+actor Member
+participant "LibraryApp" as App
+participant "AdminService" as AS
+participant "MemberService" as MS
+participant "BookService" as BS
+participant "LoanService" as LS
+participant "BookRepository" as BR
+participant "MemberRepository" as MR
+participant "LoanRepository" as LR
+
+== Admin adds a Book ==
+Admin -> App : loginAdmin(user, pass)
+App -> AS : validate admin
+AS --> App : success
+Admin -> App : addBook(title, author, isbn, copies)
+App -> BS : addBook(...)
+BS -> BR : save(Book)
+BR --> BS : Book saved
+BS --> App : confirmation
+App --> Admin : Book added
+
+== Member borrows a Book ==
+Member -> App : loginMember(id)
+App -> MS : validate member
+MS -> MR : findById(id)
+MR --> MS : Member
+MS --> App : success
+Member -> App : borrowBook(isbn)
+App -> LS : lendBook(memberId, isbn)
+LS -> BR : findByIsbn(isbn)
+BR --> LS : Book
+LS -> MR : findById(memberId)
+MR --> LS : Member
+LS -> LR : save(new Loan(book, member))
+LR --> LS : LoanId
+LS --> App : Loan created
+App --> Member : Loan confirmed
+
+== Member returns a Book ==
+Member -> App : returnBook(loanId)
+App -> LS : returnBook(loanId)
+LS -> LR : findById(loanId)
+LR --> LS : Loan
+
+note right of LS
+  Check if loan is overdue
+  Fine = €1/day if overdue
+end note
+
+LS -> LR : update(Loan: status=RETURNED,\nreturnDate=now)
+LS --> App : confirmation (+ fine if overdue)
+App --> Member : Book returned
+
+@enduml
